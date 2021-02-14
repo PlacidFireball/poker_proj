@@ -34,7 +34,7 @@ impl Deck {
         deck
     }
 
-    /*  makes a new hand and sorts it */
+    /*  makes a new hand from the deck */
     pub fn create_hand(&mut self) -> Hand {
         let mut hand: Vec<Card> = vec!();
         for i in 0..5 {
@@ -46,10 +46,11 @@ impl Deck {
                 hand.push(card);
             }
         }
-        let mut hand = Hand::from(hand);
-        hand.sort();
-        hand
+        Hand::from(hand);
     }
+
+    /*  returns a card to the deck, panics if it finds
+        a default card */
     pub fn return_card(&mut self, card: Card) {
         if card == Card::default() {
             panic!("Received a default card!");
@@ -57,15 +58,20 @@ impl Deck {
         self.cards.push(card);
     }
 
+    /*  pops a card off the top of the deck */
     pub fn select_card(&mut self) -> Card {
         match self.cards.pop() {
             Some(card) => card,
             None => Card::default()
         }
     }
+
+    /*  shuffles the deck using the rand crate */
     pub fn shuffle(&mut self) {
         self.cards.shuffle(&mut thread_rng());
     }
+
+    /*  prints off debug information to the console */
     pub fn print(&self) {
         let mut i = 0;
         for card in self.cards.iter() {
