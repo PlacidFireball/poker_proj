@@ -7,6 +7,8 @@ mod card;
 mod hand;
 use crate::hand::Hand;
 mod deck;
+mod player;
+
 use crate::deck::Deck;
 
 fn main() {
@@ -14,14 +16,13 @@ fn main() {
     //let my_card = Card::init(String::from("Ace"), 10);
     // my_card.print();
 
+    let const BIGBLIND: u32 = 10;
+    let const LITTLEBLIND: u32 = 5;
+
     let mut deck: Deck = Deck::init();
-    deck.print();
     let mut hand: Hand = Deck::create_hand(&mut deck);
     hand.print();
-    hand.sort();
-
-    deck.print();
     hand.clear_hand(&mut deck);
-    deck.print();
+
     hand.print();
 }

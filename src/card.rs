@@ -54,10 +54,11 @@ print()             - prints off debug information to the console
 pub struct Card {
     face: Face,
     num: u8,
+    visible: bool
 }
 impl Default for Card {
     fn default() -> Card {
-        Card { face: Face::ERROR, num: 0 }
+        Card { face: Face::ERROR, num: 0, visible: false}
     }
 }
 impl PartialEq for Card {
@@ -69,7 +70,7 @@ impl PartialEq for Card {
 impl Card {
     /*  initializes a card from a string and an 8bit unsigned integer*/
     pub fn init(face: String, num: u8) -> Self {
-        Card { face: Face::str_to_face(face), num }
+        Card { face: Face::str_to_face(face), num, visible: false }
     }
 
     /*  compares one card to another*/
@@ -84,6 +85,6 @@ impl Card {
     }
     /*  prints debug information to the console*/
     pub fn print(&self) {
-        println!("struct Card face: {} num: {}", Face::to_str(&self.face), &self.num);
+        println!("struct Card face: {} num: {} visible: {}", Face::to_str(&self.face), &self.num, &self.visible);
     }
 }

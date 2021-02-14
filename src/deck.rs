@@ -34,6 +34,7 @@ impl Deck {
         deck
     }
 
+    /*  makes a new hand and sorts it */
     pub fn create_hand(&mut self) -> Hand {
         let mut hand: Vec<Card> = vec!();
         for i in 0..5 {
@@ -45,7 +46,9 @@ impl Deck {
                 hand.push(card);
             }
         }
-        Hand::from(hand)
+        let mut hand = Hand::from(hand);
+        hand.sort();
+        hand
     }
     pub fn return_card(&mut self, card: Card) {
         if card == Card::default() {

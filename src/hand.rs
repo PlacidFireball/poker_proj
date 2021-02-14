@@ -16,11 +16,11 @@ print()                 - prints debug information to the console
 #[allow(dead_code, unused_variables)]
 #[derive(Clone, Debug)]
 pub struct Hand {
-    card_vec: Vec<Card>
+    cards: Vec<Card>
 }
 impl From<Vec<Card>> for Hand {
-    fn from(card_vec: Vec<Card>) -> Hand {
-        Hand { card_vec }
+    fn from(cards: Vec<Card>) -> Hand {
+        Hand { cards }
     }
 }
 #[allow(dead_code, unused_variables)]
@@ -28,17 +28,17 @@ impl Hand {
     /*  initializes a hand from an array of Cards
         WILL NOT ACCEPT ANY MORE THAN 5 CARDS */
     pub fn init(cards: &mut [Card]) -> Self {
-        let mut card_vec: Vec<Card> = Vec::new();
+        let mut cards: Vec<Card> = Vec::new();
         for i in 0..cards.len() {
             if i > 4 {break;}
-            card_vec.push(cards[i]);
+            cards.push(cards[i]);
         }
-        Hand::from(card_vec)
+        Hand::from(cards)
     }
     /*  clears a hand and returns cards to the deck */
     pub fn clear_hand(&mut self, deck: &mut Deck) {
-        for i in 0..self.card_vec.len() {
-            let card = match self.card_vec.pop() {
+        for i in 0..self.cards.len() {
+            let card = match self.cards.pop() {
                 Some(card) => card,
                 None => Card::default()
             };
@@ -48,12 +48,12 @@ impl Hand {
 
     /*  sorts the cards in a hand */
     pub fn sort(&mut self) {
-        let mut n = self.card_vec.len();
+        let mut n = self.cards.len();
         n -= 1;
         for i in 0..n {
             for j in 0..(n-i) {
-                if self.card_vec[j].comp(&self.card_vec[j+1]) == 1 {
-                    self.card_vec.swap(j, j+1);
+                if self.cards[j].comp(&self.cards[j+1]) == 1 {
+                    self.cards.swap(j, j+1);
                 }
             }
         }
@@ -62,12 +62,41 @@ impl Hand {
     /*  compares one hand to another */
     pub fn comp(&self, other: &Hand) -> i8 {
         // TODO: implement comp()
+
+        /*
+        HAND RATINGS
+        Hand Rankings
+A hand always consist of five cards. Individual cards are "ranked" as follows (high-to-low):
+A, K, Q, J, 10, 9, 8, 7, 6, 5, 4, 3, 2. ACE can be low, but only when part of an A-2-3-4-5 straight.
+Suits (Club, Diamond, Heart, Spade) have no value, so if two players have hands that are identical
+except for suit, then they are tied. A "Kicker" card is a high card used to break ties between hands
+of the same rank (ex. 2 players with "Four of a Kind", 3 K's on the board. P1 has K, 9 and P2 has K,
+6. P1 with K, 9 wins with the "9 Kicker".)
+
+Here are the "Rank of Hands" in the order of Strength with Probability of being dealt.
+Royal Flush- A, K, Q, J, 10, all in the same suit. 1 in 650,000
+Straight Flush - Five cards in sequence, all of the same suit. 1in 65,000
+Four of a Kind- Four cards of one rank. Kicker breaks ties. 1 in 4,000
+Full House- Three matching cards of one rank, plus Two matching cards of another rank.
+    Higher ranking set of three wins. If two players have the same set of three, the player
+    with the higher pair wins. 1 in 700
+Flush- Five cards of the same suit. High card wins. 1 in 500
+Straight- Five cards of sequential rank, but different suit. High card wins. 1 in 250
+Three of a kind- Three cards of the same rank, plus two unmatched cards. High set wins. 1 in 50
+Two Pair- Two cards of the same rank, plus Two cards of another rank. High pair wins. 1 in 20
+One Pair- Two cards of the same rank, plus Three unmatched cards. High pair wins. 1 in 2 1/3
+High Card- One card high, plus four unmatched lower ranking cards. Ace is the Highest card. Kicker breaks ties. 1 in 1
+        */
+
+
+
+
         0
     }
 
     /*  prints a hand to the console */
     pub fn print(&self) {
-        for card in self.card_vec.iter() {
+        for card in self.cards.iter() {
             card.print();
         }
     }
