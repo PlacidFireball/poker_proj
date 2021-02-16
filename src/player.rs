@@ -56,7 +56,9 @@ impl Player {
     pub fn set_small_blind(&mut self, is_small_blind: bool) { self.is_small_blind = is_small_blind; }
     pub fn set_big_blind(&mut self, is_big_blind: bool) { self.is_big_blind = is_big_blind; }
     pub fn set_dealer(&mut self, is_dealer: bool) { self.is_dealer = is_dealer; }
-
+    pub fn set_money(&mut self, money: i32) { self.money = money; }
+    pub fn set_status(&mut self, status: PStatus) { self.status = status; }
+    pub fn set_hand_rate(&mut self, rating: u32) { self.hand_rating = rating; }
 
 
 
