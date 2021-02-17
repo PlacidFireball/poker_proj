@@ -46,7 +46,7 @@ impl Hand {
         }
     }
 
-    /*  sorts the cards in a hand */
+    /*  sorts the cards in a hand using bubble sort */
     pub fn sort(&mut self) {
         let mut n = self.cards.len();
         n -= 1;
@@ -87,12 +87,37 @@ Two Pair- Two cards of the same rank, plus Two cards of another rank. High pair 
 One Pair- Two cards of the same rank, plus Three unmatched cards. High pair wins. 1 in 2 1/3
 High Card- One card high, plus four unmatched lower ranking cards. Ace is the Highest card. Kicker breaks ties. 1 in 1
         */
+        let mut self_rating= 0;
+        let mut other_rating = 0;
 
 
 
 
         0
     }
+
+    // algorithm: http://nsayer.blogspot.com/2007/07/algorithm-for-evaluating-poker-hands.html
+    fn rate_hand(&mut self) -> String {
+        /*  finding the */
+        hand.sort(); // sort the hand by rank
+        let mut rank_arr = [0, 0, 0, 0, 0]; // histogram of ranks -> can determine types of hands
+        let mut counts: [u8; 15] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]; // counts of each rank
+        let mut i = 0;
+        for card in self.cards.iter() { // set the rank at the ith index
+            rank_arr[i] = card.get_rank();
+            i += 1;
+        }
+        for j in 0..4 {
+            if rank_arr[i] == rank_arr[i+1] { // count each rank
+                counts[rank_arr[i]] += 1;
+            }
+        }
+
+        String::from("Hello World!")
+
+    }
+
+
 
     /*  prints a hand to the console */
     pub fn print(&self) {

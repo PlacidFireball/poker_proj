@@ -1,6 +1,5 @@
-use crate::card::Card;
-use crate::card::Face;
-use crate::hand::Hand;
+use crate::card::*;
+use crate::hand::*;
 use rand::thread_rng;
 use rand::seq::SliceRandom;
 
@@ -46,7 +45,7 @@ impl Deck {
                 hand.push(card);
             }
         }
-        Hand::from(hand);
+        Hand::from(hand)
     }
 
     /*  returns a card to the deck, panics if it finds
