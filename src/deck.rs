@@ -46,7 +46,7 @@ impl Deck {
                 hand.push(card);
             }
         }
-        Hand::from(hand);
+        Hand::from(hand)
     }
 
     /*  returns a card to the deck, panics if it finds

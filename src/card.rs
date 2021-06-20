@@ -52,8 +52,8 @@ print()             - prints off debug information to the console
 #[allow(dead_code, unused_variables)]
 #[derive(Clone, Copy, Debug)]
 pub struct Card {
-    face: Face,
-    num: u8,
+    pub face: Face,
+    pub num: u8,
     visible: bool
 }
 impl Default for Card {
