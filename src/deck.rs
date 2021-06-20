@@ -1,6 +1,5 @@
-use crate::card::Card;
-use crate::card::Face;
-use crate::hand::Hand;
+use crate::card::*;
+use crate::hand::*;
 use rand::thread_rng;
 use rand::seq::SliceRandom;
 

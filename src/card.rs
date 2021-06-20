@@ -73,7 +73,11 @@ impl Card {
         Card { face: Face::str_to_face(face), num, visible: false }
     }
 
-    /*  compares one card to another*/
+    /*  getter methods */
+    pub fn get_rank(&self) -> u8 { return self.num; }
+    pub fn get_face(&self) -> Face { return self.face; }
+
+    /*  compares one card to another */
     pub fn comp(&self, other: &Card) -> i8 {
         return if self.num < other.num {
             -1
@@ -83,6 +87,20 @@ impl Card {
             1
         }
     }
+
+    /* compares one card to another based on suit */
+    pub fn comp_suit(&self, other: &Card) -> i8 {
+        return if self.face < other.face {
+            -1
+        }
+        else if self.face == other.face {
+            0
+        }
+        else {
+            1
+        }
+    }
+
     /*  prints debug information to the console*/
     pub fn print(&self) {
         println!("struct Card face: {} num: {} visible: {}", Face::to_str(&self.face), &self.num, &self.visible);
