@@ -58,7 +58,6 @@ impl Hand {
             }
         }
     }
-
     /*  prints a hand to the console */
     pub fn print(&self) {
         for card in self.cards.iter() {

@@ -52,8 +52,8 @@ print()             - prints off debug information to the console
 #[allow(dead_code, unused_variables)]
 #[derive(Clone, Copy, Debug)]
 pub struct Card {
-    pub face: Face,
-    pub num: u8,
+    face: Face,
+    num: u8,
     visible: bool
 }
 impl Default for Card {
@@ -89,7 +89,7 @@ impl Card {
     }
 
     /* compares one card to another based on suit */
-    pub fn comp_suit(&self, other: &Card) -> i8 {
+    /*pub fn comp_suit(&self, other: &Card) -> i8 {
         return if self.face < other.face {
             -1
         }
@@ -99,7 +99,7 @@ impl Card {
         else {
             1
         }
-    }
+    }*/
 
     /*  prints debug information to the console*/
     pub fn print(&self) {
