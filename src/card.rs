@@ -1,38 +1,42 @@
 /*
-Face enum - used to keep track of the face of a card
+suit enum - used to keep track of the suit of a card
 --Types--
 Ace, Spade, Diamond, Heart, ERROR (for error handling)
 --Traits--
 PartialEq, Clone, Copy, Debug
 --Methods--
-to_str(&Face)           - converts a (borrowed) face to a string
-str_to_face(String)     - converts a string to a face
+as_str(&suit)           - converts a (borrowed) suit to a string
+str_to_suit(String)     - converts a string to a suit
  */
+use std::fmt::Display;
+use std::fmt;
+use std::convert::TryFrom;
+use core::fmt::Error;
+
 #[derive(PartialEq, Clone, Copy, Debug)]
-pub enum Face {
+pub enum Suit {
     Ace,
     Spade,
     Heart,
-    Diamond,
-    ERROR
+    Diamond
 }
-impl Face {
-    pub fn to_str(face: &Face) -> String {
-        match face {
-            Face::Ace => String::from("Ace"),
-            Face::Spade => String::from("Spade"),
-            Face::Heart => String::from("Heart"),
-            Face::Diamond => String::from("Diamond"),
-            Face::ERROR => String::from("")
-        }
+impl TryFrom<&str> for Suit {
+    type Error = core::fmt::Error;
+    fn try_from(value: &str) -> Result<Self, Self::Error> {
+        if value == "Ace" { Ok(Suit::Ace) }
+        else if value == "Spade" { Ok(Suit::Spade) }
+        else if value == "Heart" { Ok(Suit::Heart) }
+        else if value == "Diamond" { Ok(Suit::Diamond) }
+        else { Err(core::fmt::Error) }
     }
-    pub fn str_to_face(face: String) -> Face {
-        match face.as_str() {
-            "Ace" => Face::Ace,
-            "Spade" => Face::Spade,
-            "Heart" => Face::Heart,
-            "Diamond" => Face::Diamond,
-            _ => Face::ERROR
+}
+impl Suit {
+    pub fn as_str(suit: &Suit) -> String {
+        match suit {
+            Suit::Ace => String::from("Ace"),
+            Suit::Spade => String::from("Spade"),
+            Suit::Heart => String::from("Heart"),
+            Suit::Diamond => String::from("Diamond")
         }
     }
 }
@@ -52,30 +56,25 @@ print()             - prints off debug information to the console
 #[allow(dead_code, unused_variables)]
 #[derive(Clone, Copy, Debug)]
 pub struct Card {
-    face: Face,
+    suit: Suit,
     num: u8,
     visible: bool
 }
-impl Default for Card {
-    fn default() -> Card {
-        Card { face: Face::ERROR, num: 0, visible: false}
-    }
-}
 impl PartialEq for Card {
     fn eq(&self, other: &Self) -> bool {
-        self.num == other.num && self.face == other.face
+        self.num == other.num && self.suit == other.suit
     }
 }
 #[allow(dead_code, unused_variables)]
 impl Card {
     /*  initializes a card from a string and an 8bit unsigned integer*/
-    pub fn init(face: String, num: u8) -> Self {
-        Card { face: Face::str_to_face(face), num, visible: false }
+    pub fn init(suit: String, num: u8) -> Self {
+        Card { suit: Suit::try_from(suit.as_str()).unwrap(), num, visible: false }
     }
 
     /*  getter methods */
     pub fn get_rank(&self) -> u8 { return self.num; }
-    pub fn get_face(&self) -> Face { return self.face; }
+    pub fn get_suit(&self) -> Suit { return self.suit; }
 
     /*  compares one card to another */
     pub fn comp(&self, other: &Card) -> i8 {
@@ -88,21 +87,8 @@ impl Card {
         }
     }
 
-    /* compares one card to another based on suit */
-    /*pub fn comp_suit(&self, other: &Card) -> i8 {
-        return if self.face < other.face {
-            -1
-        }
-        else if self.face == other.face {
-            0
-        }
-        else {
-            1
-        }
-    }*/
-
     /*  prints debug information to the console*/
     pub fn print(&self) {
-        println!("struct Card face: {} num: {} visible: {}", Face::to_str(&self.face), &self.num, &self.visible);
+        println!("struct Card suit: {:?} num: {} visible: {}", &self.suit, &self.num, &self.visible);
     }
 }

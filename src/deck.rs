@@ -3,10 +3,6 @@ use crate::hand::*;
 use rand::thread_rng;
 use rand::seq::SliceRandom;
 
-/*
-TODO: add comments for the Deck struct
-*/
-
 #[allow(dead_code, unused_variables)]
 #[derive(Clone, Debug)]
 pub struct Deck {
@@ -16,15 +12,15 @@ pub struct Deck {
 impl Deck {
     /*  creates a deck of 52 cards and shuffles it */
     pub fn init() -> Deck {
-        let mut face_vec: Vec<Face> = Vec::with_capacity(4); // build a vector of the faces of our cards
-        face_vec.push(Face::Ace);
-        face_vec.push(Face::Spade);
-        face_vec.push(Face::Heart);
-        face_vec.push(Face::Diamond);
+        let mut suit_vec: Vec<Suit> = Vec::with_capacity(4); // build a vector of the Suits of our cards
+        suit_vec.push(Suit::Ace);
+        suit_vec.push(Suit::Spade);
+        suit_vec.push(Suit::Heart);
+        suit_vec.push(Suit::Diamond);
         let mut cards = vec!(); // future cards vec
-        for face in face_vec.iter() { // iterate through the faces
+        for Suit in suit_vec.iter() { // iterate through the Suits
             for i in 1..14 { // iterate through the cards 1 = ace, 13 = king
-                let card = Card::init(Face::to_str(face), i); // make the card
+                let card = Card::init(Suit::as_str(Suit), i); // make the card
                 cards.push(card); // push it onto the vector
             }
         }
@@ -38,12 +34,7 @@ impl Deck {
         let mut hand: Vec<Card> = vec!();
         for i in 0..5 {
             let card = self.select_card();
-            if card == Card::default() {
-                panic!("Received a default card!");
-            }
-            else {
-                hand.push(card);
-            }
+            hand.push(card);
         }
         Hand::from(hand)
     }
@@ -51,18 +42,12 @@ impl Deck {
     /*  returns a card to the deck, panics if it finds
         a default card */
     pub fn return_card(&mut self, card: Card) {
-        if card == Card::default() {
-            panic!("Received a default card!");
-        }
         self.cards.push(card);
     }
 
     /*  pops a card off the top of the deck */
     pub fn select_card(&mut self) -> Card {
-        match self.cards.pop() {
-            Some(card) => card,
-            None => Card::default()
-        }
+        self.cards.pop().unwrap()
     }
 
     /*  shuffles the deck using the rand crate */

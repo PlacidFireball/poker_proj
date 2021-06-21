@@ -8,7 +8,6 @@ mod hand;
 use crate::hand::*;
 mod deck;
 use crate::deck::*;
-mod player;
 mod rater;
 
 
@@ -23,12 +22,13 @@ fn main() {
     //let mut deck: Deck = Deck::init();
     //let mut hand: Hand = Deck::create_hand(&mut deck);
     let mut cards : Vec<Card> = vec!();
-    cards.push(Card::init(String::from("Spade"), 2));
-    cards.push(Card::init(String::from("Heart"), 2));
-    cards.push(Card::init(String::from("Spade"), 3));
-    cards.push(Card::init(String::from("Spade"), 10));
-    cards.push(Card::init(String::from("Diamond"), 10));
+    cards.push(Card::init(String::from("Heart"), 10));
+    cards.push(Card::init(String::from("Heart"), 9));
+    cards.push(Card::init(String::from("Heart"), 8));
+    cards.push(Card::init(String::from("Heart"), 7));
+    cards.push(Card::init(String::from("Heart"), 6));
     let mut hand = Hand::from(cards);
+    hand.print();
     println!("{}", rater::rate(&mut hand));
 
 }

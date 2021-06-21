@@ -13,10 +13,17 @@ pub fn rate(hand: &mut Hand) -> u16 {
     let high_card = hand.cards[4];
     let mut rating : u16 = 0;
 
+    let mut occurrences: [u8; 15] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    for card in &hand.cards {
+        occurrences[card.get_rank() as usize] += 1;
+    }
+
     // Preprocessing
-    let is_straight = is_straight(hand);
+    let is_straight = is_straight(occurrences);
     let same_suit = same_suit(hand);
-    let is_pair = is_pair(hand);
+    let is_pair = is_pair(occurrences);
+    let most_occ = most_occurrences(occurrences);
+    let is_full_house = is_full_house(occurrences);
 
     if is_straight && same_suit && high_card.get_rank() == 14 { // Royal flush
         rating = 30;
@@ -24,24 +31,58 @@ pub fn rate(hand: &mut Hand) -> u16 {
     else if is_straight && same_suit { // Straight Flush
         rating = 29;
     }
-    else if is_pair == 2 {
+    else if most_occ == 4 {
+        rating = 28;
+    }
+    else if is_full_house {
+        rating = 27;
+    }
+    else if same_suit {
         rating = 26;
     }
-    else if is_pair == 1 {
+    else if is_straight {
         rating = 25;
     }
-    // TODO impl the rest of the ratings from https://www.cardplayer.com/rules-of-poker/hand-rankings
+    else if most_occ == 3 {
+        rating = 24;
+    }
+    else if is_pair == 2 {
+        rating = 25;
+    }
+    else if is_pair == 1 {
+        rating = 24;
+    }
+    else {
+        rating = high_card.get_rank() as u16;
+    }
     rating
 }
 
 /*  detects if the hand is a straight or not */
-fn is_straight(hand: &Hand) -> bool {
-    for i in 0..4 {
-        if hand.cards[i].get_rank() != hand.cards[i+1].get_rank()-1 {
+fn is_straight(occurence_arr: [u8; 15]) -> bool {
+    let mut first_index = 0;
+    for i in 0..15 {
+        if occurence_arr[i] == 1 {
+            first_index = i;
+            break;
+        }
+    }
+    for j in first_index..first_index+5 {
+        if occurence_arr[j] != 1 {
             return false;
         }
     }
     true
+}
+
+fn is_full_house(occurrences: [u8; 15]) -> bool {
+    let mut found_3 = false;
+    let mut found_2 = false;
+    for i in 0..15 {
+        if occurrences[i] == 3 { found_3 = true; }
+        else if occurrences[i] == 2 { found_2 = true; }
+    }
+    found_3 && found_2
 }
 
 fn is_flush(hand: &Hand) -> bool {
@@ -50,36 +91,30 @@ fn is_flush(hand: &Hand) -> bool {
 }
 
 /*  detects if there are 1 (or more) pairs in the hand */
-fn is_pair(hand: &mut Hand) -> u8 {
-    let mut curr_card : Card = hand.cards[0];
-    let mut counter : u8 = 0;
-    for i in 1..hand.cards.len() {
-        if hand.cards[i].get_rank() == curr_card.get_rank() {
-            counter += 1;
+fn is_pair(occurrence_arr: [u8; 15]) -> u8 {
+    let mut num_pairs = 0;
+    for i in 0..15 {
+        if occurrence_arr[i] == 2 {
+            num_pairs += 1;
         }
-        curr_card = hand.cards[i];
     }
-    counter
+    num_pairs
 }
 
-fn most_occurences(hand: &Hand) -> u8 {
-    let mut occurences : [u8; 15] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-    for card in hand.cards {
-        occurences[card.get_rank()] += 1;
-    }
+fn most_occurrences(occurrences: [u8; 15]) -> u8 {
     let mut top : u8 = 0;
-    for i in 0..occurences.len() {
-        if occurences[i] > top {
-            top = occurences[i]
+    for i in 0..occurrences.len() {
+        if occurrences[i] > top {
+            top = occurrences[i]
         }
     }
     top
 }
 
 fn same_suit(hand: &Hand) -> bool {
-    let suit: Face = hand.cards[0].get_face();
+    let suit: Suit = hand.cards[0].get_suit();
     for card in hand.cards.iter() {
-        if card.get_face() != suit {
+        if card.get_suit() != suit {
             return false;
         }
     }

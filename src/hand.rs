@@ -38,10 +38,7 @@ impl Hand {
     /*  clears a hand and returns cards to the deck */
     pub fn clear_hand(&mut self, deck: &mut Deck) {
         for i in 0..self.cards.len() {
-            let card = match self.cards.pop() {
-                Some(card) => card,
-                None => Card::default()
-            };
+            let card = self.cards.pop().unwrap();
             deck.return_card(card);
         }
     }
