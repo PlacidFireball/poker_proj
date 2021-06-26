@@ -10,18 +10,17 @@ mod deck;
 use crate::deck::*;
 mod rater;
 
-
 fn main() {
-    /*  example card code */
-    //let my_card = Card::init(String::from("Ace"), 10);
-    // my_card.print();
-
     const BIG_BLIND: u32 = 10;
     const LITTLE_BLIND: u32 = 5;
 
-    //let mut deck: Deck = Deck::init();
-    //let mut hand: Hand = Deck::create_hand(&mut deck);
-    let mut cards : Vec<Card> = vec!();
+    test();
+}
+
+fn test() {
+    /* tests for poker_proj */
+
+    let mut cards: Vec<Card> = vec![];
     cards.push(Card::init(String::from("Heart"), 10));
     cards.push(Card::init(String::from("Heart"), 9));
     cards.push(Card::init(String::from("Heart"), 8));
@@ -30,5 +29,4 @@ fn main() {
     let mut hand = Hand::from(cards);
     hand.print();
     println!("{}", rater::rate(&mut hand));
-
 }

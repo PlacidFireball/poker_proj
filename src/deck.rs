@@ -1,12 +1,12 @@
 use crate::card::*;
 use crate::hand::*;
-use rand::thread_rng;
 use rand::seq::SliceRandom;
+use rand::thread_rng;
 
 #[allow(dead_code, unused_variables)]
 #[derive(Clone, Debug)]
 pub struct Deck {
-    cards: Vec<Card>
+    cards: Vec<Card>,
 }
 #[allow(dead_code, unused_variables)]
 impl Deck {
@@ -17,10 +17,12 @@ impl Deck {
         suit_vec.push(Suit::Spade);
         suit_vec.push(Suit::Heart);
         suit_vec.push(Suit::Diamond);
-        let mut cards = vec!(); // future cards vec
-        for Suit in suit_vec.iter() { // iterate through the Suits
-            for i in 1..14 { // iterate through the cards 1 = ace, 13 = king
-                let card = Card::init(Suit::as_str(Suit), i); // make the card
+        let mut cards = vec![]; // future cards vec
+        for Suit in suit_vec.iter() {
+            // iterate through the Suits
+            for i in 1..14 {
+                // iterate through the cards 1 = ace, 13 = king
+                let card = Card::init(Suit::to_string(Suit), i); // make the card
                 cards.push(card); // push it onto the vector
             }
         }
@@ -31,16 +33,14 @@ impl Deck {
 
     /*  makes a new hand from the deck */
     pub fn create_hand(&mut self) -> Hand {
-        let mut hand: Vec<Card> = vec!();
+        let mut hand: Vec<Card> = vec![];
         for i in 0..5 {
-            let card = self.select_card();
-            hand.push(card);
+            hand.push(self.select_card());
         }
         Hand::from(hand)
     }
 
-    /*  returns a card to the deck, panics if it finds
-        a default card */
+    /*  returns a card to the deck */
     pub fn return_card(&mut self, card: Card) {
         self.cards.push(card);
     }
@@ -59,7 +59,7 @@ impl Deck {
     pub fn print(&self) {
         let mut i = 0;
         for card in self.cards.iter() {
-            i+= 1;
+            i += 1;
             print!("{} ", i);
             card.print();
         }

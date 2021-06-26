@@ -16,7 +16,7 @@ print()                 - prints debug information to the console
 #[allow(dead_code, unused_variables)]
 #[derive(Clone, Debug)]
 pub struct Hand {
-    pub cards: Vec<Card>
+    pub cards: Vec<Card>,
 }
 impl From<Vec<Card>> for Hand {
     fn from(cards: Vec<Card>) -> Hand {
@@ -26,11 +26,13 @@ impl From<Vec<Card>> for Hand {
 #[allow(dead_code, unused_variables)]
 impl Hand {
     /*  initializes a hand from an array of Cards
-        WILL NOT ACCEPT ANY MORE THAN 5 CARDS */
+    WILL NOT ACCEPT ANY MORE THAN 5 CARDS */
     pub fn init(cards: &mut [Card]) -> Self {
         let mut cards: Vec<Card> = Vec::new();
         for i in 0..cards.len() {
-            if i > 4 {break;}
+            if i > 4 {
+                break;
+            }
             cards.push(cards[i]);
         }
         Hand::from(cards)
@@ -48,9 +50,9 @@ impl Hand {
         let mut n = self.cards.len();
         n -= 1;
         for i in 0..n {
-            for j in 0..(n-i) {
-                if self.cards[j].comp(&self.cards[j+1]) == 1 {
-                    self.cards.swap(j, j+1);
+            for j in 0..(n - i) {
+                if self.cards[j].comp(&self.cards[j + 1]) == 1 {
+                    self.cards.swap(j, j + 1);
                 }
             }
         }
@@ -62,5 +64,3 @@ impl Hand {
         }
     }
 }
-
-
